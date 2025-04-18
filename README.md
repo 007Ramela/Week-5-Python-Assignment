@@ -1,44 +1,50 @@
 # Week-5-Python-Assignment
 Object Orientated Programming
 
-class Superhero:
-    def __init__(self, name, alias, power_level):
+class CarManufacturer:
+    def __init__(self, name, founded_year, country):
         self.name = name
-        self.alias = alias
-        self._power_level = power_level  # Encapsulated attribute
+        self.founded_year = founded_year
+        self.country = country
+        self._car_models = []  # Encapsulated list of car models
 
     def introduce(self):
-        return f"I am {self.alias}, also known as {self.name}!"
+        return f"{self.name} was founded in {self.founded_year} in {self.country}."
 
-    def get_power_level(self):
-        return self._power_level
+    def produce_car(self, model, year, is_electric):
+        car = Car(model, year, is_electric)
+        self._car_models.append(car)
+        print(f"{self.name} has produced a new car: {car.model} ({car.year}) - Electric: {car.is_electric}")
 
-    def boost_power(self, amount):
-        self._power_level += amount
-        print(f"{self.alias}'s power increased to {self._power_level}!")
+    def get_car_models(self):
+        return [car.model for car in self._car_models]
 
-class Speedster(Superhero):
-    def __init__(self, name, alias, power_level, top_speed):
-        super().__init__(name, alias, power_level)
-        self.top_speed = top_speed
+class Tesla(CarManufacturer):
+    def __init__(self, founded_year, country):
+        super().__init__("Tesla", founded_year, country)
 
-    def use_power(self):
-        return f"{self.alias} runs at lightning speed of {self.top_speed} km/h! ⚡"
+    def produce_car(self, model, year):
+        super().produce_car(model, year, True)  # Tesla always produces electric cars
 
-class Telepath(Superhero):
-    def __init__(self, name, alias, power_level, mind_control_range):
-        super().__init__(name, alias, power_level)
-        self.mind_control_range = mind_control_range
+class Toyota(CarManufacturer):
+    def __init__(self, founded_year, country):
+        super().__init__("Toyota", founded_year, country)
 
-    def use_power(self):
-        return f"{self.alias} can control minds within {self.mind_control_range} meters! 🧠"
+    def produce_car(self, model, year, is_hybrid=False):
+        super().produce_car(model, year, is_hybrid)
 
-flash = Speedster("Barry Allen", "The Flash", 95, 1200)
-prof_x = Telepath("Charles Xavier", "Professor X", 98, 300)
+class Vehicle:
+    def move(self):
+        raise NotImplementedError("This method should be overridden in subclasses")
 
-print(flash.introduce())
-print(flash.use_power())
-flash.boost_power(5)
+class Car(Vehicle):
+    def move(self):
+        return "Driving on the road 🚗"
 
-print(prof_x.introduce())
-print(prof_x.use_power())
+class Plane(Vehicle):
+    def move(self):
+        return "Flying through the clouds ✈️"
+
+class Boat(Vehicle):
+    def move(self):
+        return "Sailing across the waves 🚢"
